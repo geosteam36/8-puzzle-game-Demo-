@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spidey Puzzle: Web-Slinger Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>SPIDEY PUZZLE</h1>
+    
+    <div class="mission-control">
+        <h3>SELECT MISSION DIFFICULTY:</h3>
+        <div class="button-group">
+            <button class="menu-btn" onclick="changeLevel(3)">3x3 TRAINING</button>
+            <button class="menu-btn" onclick="changeLevel(4)">4x4 HERO</button>
+            <button class="menu-btn" onclick="changeLevel(5)">5x5 AVENGER</button>
+            <button id="mute-btn" class="menu-btn" onclick="toggleMute()">🔊 SOUND: ON</button>
+        </div>
+    </div>
+
+    <div class="game-info">
+        <div class="info-box">TIME: <span id="timer">00:00</span></div>
+        <div class="info-box">BEST: <span id="best-time">--:--</span></div>
+    </div>
+
+    <div id="game-board" class="board"></div>
+    
+    <div class="controls">
+        <button id="reset-btn" onclick="shuffleGame()">RE-SLING WEB</button>
+        <div id="message"></div>
+    </div>
+
+    <audio id="thwip-sound" src="Spidey.mp3" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Open+Sans:wght@800&display=swap');
+
+:root {
+    --spidey-red: #e62429;
+    --spidey-blue: #001d4a;
+    --spidey-web: #ffffff;
+    --success-green: #2ecc71;
+    --dark-bg: #050b18;
+}
+
+body {
+    background-color: var(--dark-bg);
+    /* Add your wallpaper path here later: background-image: url('wallpaper.jpg'); */
+    background-image: radial-gradient(circle, #0a1a35 0%, #050b18 100%);
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: var(--spidey-red);
+    text-shadow: 3px 3px 0px var(--spidey-web), 6px 6px 0px var(--spidey-blue);
+    margin: 10px 0;
+}
+
+.mission-control {
+    background: rgba(0, 29, 74, 0.9);
+    padding: 15px 25px;
+    border: 3px solid var(--spidey-red);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px var(--spidey-red);
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.menu-btn {
+    background: var(--spidey-red);
+    color: white;
+    border: 2px solid var(--spidey-web);
+    padding: 8px 15px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.2s;
+    box-shadow: 0 4px 0 var(--spidey-blue);
+}
+
+.menu-btn:hover {
+    background: var(--spidey-blue);
+    transform: scale(1.05);
+}
+
+#mute-btn.is-muted {
+    background: #444;
+    border-color: #777;
+    box-shadow: 0 4px 0 #111;
+}
+
+.game-info {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    background: var(--spidey-blue);
+    padding: 8px 15px;
+    border: 2px solid var(--spidey-web);
+    border-radius: 10px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    min-width: 100px;
+    text-align: center;
+    box-shadow: 0 4px 0 var(--spidey-red);
+}
+
+.board {
+    display: grid;
+    gap: 10px;
+    padding: 15px;
+    background-color: var(--spidey-blue);
+    /* Subtle web grid pattern */
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    border: 6px solid var(--spidey-red);
+    border-radius: 15px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+}
+
+.tile {
+    background-color: var(--spidey-red);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    border: 3px solid var(--spidey-web);
+    box-shadow: inset 0 -4px 0px rgba(0,0,0,0.3);
+    transition: transform 0.1s;
+    user-select: none;
+}
+
+.tile:hover:not(.empty) {
+    filter: brightness(1.15);
+}
+
+.tile.empty {
+    background: transparent;
+    border: 2px dashed rgba(255,255,255,0.2);
+    box-shadow: none;
+}
+
+.tick {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--success-green);
+    color: white;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white;
+}
+
+#reset-btn {
+    background: var(--spidey-blue);
+    color: white;
+    padding: 12px 30px;
+    border: 3px solid var(--spidey-red);
+    border-radius: 50px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--dark-bg);
+}
+
+#message {
+    margin-top: 15px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    color: var(--success-green);
+}
