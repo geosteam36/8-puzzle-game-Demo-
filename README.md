@@ -24,7 +24,7 @@ An interactive 8-puzzle game (and beyond) inspired by Spider-Man. Challenge your
 * **JavaScript** (Vanilla ES6)
 
 ## 📸 Preview
-![Spidey Puzzle Preview](preview.png)
+![Spidey Puzzle Preview](Preview.png)
 
 ---
 *Created with Spider-Sense and Code.*
