@@ -1,7 +1,7 @@
 const board = document.getElementById('game-board');
-const message = document.getElementById('message');
 const timerDisplay = document.getElementById('timer');
 const bestTimeDisplay = document.getElementById('best-time');
+const overlay = document.getElementById('web-overlay');
 const thwipSound = document.getElementById('thwip-sound');
 
 let size = 3;
@@ -25,24 +25,9 @@ function updateBestTimeDisplay() {
 
 function toggleMute() {
     isMuted = !isMuted;
-    const muteBtn = document.getElementById('mute-btn');
-    muteBtn.textContent = isMuted ? "🔇 SOUND: OFF" : "🔊 SOUND: ON";
-    muteBtn.classList.toggle('is-muted');
-}
-
-function startTimer() {
-    if (!timerStarted) {
-        timerStarted = true;
-        timerInterval = setInterval(() => {
-            seconds++;
-            timerDisplay.textContent = formatTime(seconds);
-        }, 1000);
-    }
-}
-
-function stopTimer() {
-    clearInterval(timerInterval);
-    timerStarted = false;
+    const btn = document.getElementById('mute-btn');
+    btn.textContent = isMuted ? "🔇 SOUND: OFF" : "🔊 SOUND: ON";
+    btn.classList.toggle('is-muted');
 }
 
 function changeLevel(newSize) {
@@ -51,18 +36,18 @@ function changeLevel(newSize) {
 }
 
 function drawBoard() {
-    board.innerHTML = '';
-    let tileSize = size === 3 ? '100px' : size === 4 ? '80px' : '65px';
-    let fontSize = size === 5 ? '1.5rem' : '2.5rem';
+    const currentTiles = board.querySelectorAll('.tile');
+    currentTiles.forEach(t => t.remove());
 
+    // Adjusted sizes for laptop screens
+    let tileSize = size === 3 ? '85px' : size === 4 ? '65px' : '50px';
     board.style.gridTemplateColumns = `repeat(${size}, ${tileSize})`;
 
     tiles.forEach((tile, index) => {
         const tileDiv = document.createElement('div');
         tileDiv.classList.add('tile');
-        tileDiv.style.width = tileSize;
-        tileDiv.style.height = tileSize;
-        tileDiv.style.fontSize = fontSize;
+        tileDiv.style.width = tileDiv.style.height = tileSize;
+        tileDiv.style.fontSize = size > 3 ? '1.2rem' : '1.8rem';
         
         if (tile === null) {
             tileDiv.classList.add('empty');
@@ -73,7 +58,6 @@ function drawBoard() {
                 tick.classList.add('tick');
                 tick.innerHTML = '✓';
                 tileDiv.appendChild(tick);
-                tileDiv.style.borderColor = "var(--success-green)";
             }
             tileDiv.addEventListener('click', () => moveTile(index));
         }
@@ -83,17 +67,15 @@ function drawBoard() {
 
 function moveTile(index) {
     const emptyIndex = tiles.indexOf(null);
-    const row = Math.floor(index / size);
-    const col = index % size;
-    const emptyRow = Math.floor(emptyIndex / size);
-    const emptyCol = emptyIndex % size;
+    const row = Math.floor(index / size), col = index % size;
+    const eRow = Math.floor(emptyIndex / size), eCol = emptyIndex % size;
 
-    if (Math.abs(row - emptyRow) + Math.abs(col - emptyCol) === 1) {
-        if (!isMuted) {
-            thwipSound.currentTime = 0;
-            thwipSound.play();
+    if (Math.abs(row - eRow) + Math.abs(col - eCol) === 1) {
+        if (!isMuted) { thwipSound.currentTime = 0; thwipSound.play(); }
+        if (!timerStarted) {
+            timerStarted = true;
+            timerInterval = setInterval(() => { seconds++; timerDisplay.textContent = formatTime(seconds); }, 1000);
         }
-        if (!timerStarted) startTimer();
         [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
         moves++;
         drawBoard();
@@ -102,18 +84,17 @@ function moveTile(index) {
 }
 
 function shuffleGame() {
-    stopTimer();
-    seconds = 0;
-    moves = 0;
+    clearInterval(timerInterval);
+    timerStarted = false;
+    seconds = moves = 0;
     timerDisplay.textContent = "00:00";
-    message.textContent = "";
+    overlay.style.display = 'none';
     updateBestTimeDisplay();
     
     const total = size * size;
     tiles = Array.from({length: total - 1}, (_, i) => i + 1);
     tiles.push(null);
     
-    // Shuffle logic to ensure solvability
     for (let i = 0; i < size * 100; i++) {
         const emptyIndex = tiles.indexOf(null);
         const neighbors = [];
@@ -128,16 +109,13 @@ function shuffleGame() {
 }
 
 function checkWin() {
-    const total = size * size;
-    const isWin = tiles.every((t, i) => (i === total - 1 ? t === null : t === i + 1));
-    
+    const isWin = tiles.every((t, i) => (i === tiles.length - 1 ? t === null : t === i + 1));
     if (isWin && moves > 0) {
-        stopTimer();
-        message.innerHTML = `THWIP! MISSION COMPLETE!`;
-        const currentBest = localStorage.getItem(`spidey-best-${size}`);
-        if (!currentBest || seconds < parseInt(currentBest)) {
+        clearInterval(timerInterval);
+        overlay.style.display = 'flex';
+        const best = localStorage.getItem(`spidey-best-${size}`);
+        if (!best || seconds < parseInt(best)) {
             localStorage.setItem(`spidey-best-${size}`, seconds);
-            message.innerHTML += `<br><span style="color:white; font-size:1rem">NEW PERSONAL BEST!</span>`;
             updateBestTimeDisplay();
         }
     }

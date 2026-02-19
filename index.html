@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spidey Puzzle: Web-Slinger Edition</title>
+    <title>Spidey Puzzle | Web-Slinger Edition</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,11 +11,10 @@
     <h1>SPIDEY PUZZLE</h1>
     
     <div class="mission-control">
-        <h3>SELECT MISSION DIFFICULTY:</h3>
         <div class="button-group">
-            <button class="menu-btn" onclick="changeLevel(3)">3x3 TRAINING</button>
-            <button class="menu-btn" onclick="changeLevel(4)">4x4 HERO</button>
-            <button class="menu-btn" onclick="changeLevel(5)">5x5 AVENGER</button>
+            <button class="menu-btn" onclick="changeLevel(3)">3x3</button>
+            <button class="menu-btn" onclick="changeLevel(4)">4x4</button>
+            <button class="menu-btn" onclick="changeLevel(5)">5x5</button>
             <button id="mute-btn" class="menu-btn" onclick="toggleMute()">🔊 SOUND: ON</button>
         </div>
     </div>
@@ -25,7 +24,13 @@
         <div class="info-box">BEST: <span id="best-time">--:--</span></div>
     </div>
 
-    <div id="game-board" class="board"></div>
+    <div id="game-board" class="board">
+        <div id="web-overlay" class="web-overlay">
+            <div class="web-content">
+                <h2>THWIP!</h2>
+            </div>
+        </div>
+    </div>
     
     <div class="controls">
         <button id="reset-btn" onclick="shuffleGame()">RE-SLING WEB</button>
