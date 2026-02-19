@@ -25,9 +25,7 @@ function updateBestTimeDisplay() {
 
 function toggleMute() {
     isMuted = !isMuted;
-    const btn = document.getElementById('mute-btn');
-    btn.textContent = isMuted ? "🔇 SOUND: OFF" : "🔊 SOUND: ON";
-    btn.classList.toggle('is-muted');
+    document.getElementById('mute-btn').textContent = isMuted ? "🔇 SOUND: OFF" : "🔊 SOUND: ON";
 }
 
 function changeLevel(newSize) {
@@ -39,26 +37,19 @@ function drawBoard() {
     const currentTiles = board.querySelectorAll('.tile');
     currentTiles.forEach(t => t.remove());
 
-    // Adjusted sizes for laptop screens
-    let tileSize = size === 3 ? '85px' : size === 4 ? '65px' : '50px';
+    let tileSize = size === 3 ? '80px' : size === 4 ? '60px' : '48px';
     board.style.gridTemplateColumns = `repeat(${size}, ${tileSize})`;
 
     tiles.forEach((tile, index) => {
         const tileDiv = document.createElement('div');
         tileDiv.classList.add('tile');
         tileDiv.style.width = tileDiv.style.height = tileSize;
-        tileDiv.style.fontSize = size > 3 ? '1.2rem' : '1.8rem';
+        tileDiv.style.fontSize = size > 3 ? '1rem' : '1.5rem';
         
         if (tile === null) {
             tileDiv.classList.add('empty');
         } else {
             tileDiv.textContent = tile;
-            if (tile === index + 1) {
-                const tick = document.createElement('div');
-                tick.classList.add('tick');
-                tick.innerHTML = '✓';
-                tileDiv.appendChild(tick);
-            }
             tileDiv.addEventListener('click', () => moveTile(index));
         }
         board.appendChild(tileDiv);
